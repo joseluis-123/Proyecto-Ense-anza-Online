@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\LeccionController;
+use App\Http\Controllers\SeccionController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +23,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('usuario', UsuarioController::class);
+
+Route::resource('carrito', CarritoController::class);
+
+Route::resource('categoria', CategoriaController::class);
+
+Route::resource('curso', CursoController::class);
+
+Route::resource('seccion', SeccionController::class);
+
+Route::resource('venta', VentaController::class);
+
