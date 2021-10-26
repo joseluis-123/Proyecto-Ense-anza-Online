@@ -4,6 +4,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LeccionController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SeccionController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
@@ -36,3 +37,7 @@ Route::resource('seccion', SeccionController::class);
 
 Route::resource('venta', VentaController::class);
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
