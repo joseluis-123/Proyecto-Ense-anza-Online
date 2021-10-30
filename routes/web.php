@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SeccionController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\Web\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,23 +22,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::prefix('admin')->middleware('auth')->group( function () {
+
+    Route::resource('usuario', UsuarioController::class);
+
+    Route::resource('carrito', CarritoController::class);
+
+    Route::resource('categoria', CategoriaController::class);
+
+    Route::resource('curso', CursoController::class);
+
+    Route::resource('seccion', SeccionController::class);
+
+    Route::resource('venta', VentaController::class);
+
 });
 
-Route::resource('usuario', UsuarioController::class);
+Route::get('/', [PageController::class, 'inicio'])->name('inicio');
+Route::get('/curso/{id}/detalle', [PageController::class, 'curso_detalle'])->name('curso.detalle');
 
-Route::resource('carrito', CarritoController::class);
-
-Route::resource('categoria', CategoriaController::class);
-
-Route::resource('curso', CursoController::class);
-
-Route::resource('seccion', SeccionController::class);
-
-Route::resource('venta', VentaController::class);
-
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

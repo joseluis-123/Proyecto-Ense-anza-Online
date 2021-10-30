@@ -27,4 +27,14 @@ class Curso extends Model
     {
         return $this->belongsTo(Categoria::class);
     }
+
+    public function secciones()
+    {
+        return $this->hasMany(Seccion::class);
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(Usuario::class, 'instructor_id');
+    }
 }
