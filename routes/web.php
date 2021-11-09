@@ -3,6 +3,7 @@
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeccionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SeccionController;
@@ -26,6 +27,8 @@ Auth::routes();
 
 Route::prefix('admin')->middleware('auth')->group( function () {
 
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
     Route::resource('usuario', UsuarioController::class);
 
     Route::resource('carrito', CarritoController::class);
@@ -43,5 +46,7 @@ Route::prefix('admin')->middleware('auth')->group( function () {
 Route::get('/', [PageController::class, 'inicio'])->name('inicio');
 Route::get('/curso/{id}/detalle', [PageController::class, 'curso_detalle'])->name('curso.detalle');
 
+Route::get('/anadir-carrito', [CarritoController::class, 'anadirCarrito']);
+Route::get('/eliminar-carrito', [CarritoController::class, 'eliminarCarrito']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

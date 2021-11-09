@@ -17,6 +17,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('stylesheets/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('stylesheets/colors/color1.css') }}" id="colors">
 
+    <style>
+        .sortable-handler {
+            touch-action: none;
+        }
+    </style>
+
 
 </head>
 <body class="bg-body2">
@@ -39,8 +45,12 @@
                     <div class="col-lg-6 col-md-12 pd-left-0">
                         <div class="flat-action flat-text-right style2 float-right">
                             <ul>
-                                <li class="register"><a href="#">REGISTRO</a></li>
-                                <li class="user"><a href="#">LOGIN</a></li>
+                                @guest
+                                    <li class="register"><a href="{{ route('register') }}">REGISTRO</a></li>
+                                    <li class="user"><a href="{{ route('login') }}">LOGIN</a></li>
+                                @else
+                                    <li class="user"><a href="{{ route('home') }}">{{ Auth::user()->nombres . ' ' . Auth::user()->apellidos }}</a></li>
+                                @endguest
                             </ul>
                         </div> <!-- /.flat-action -->
                     </div> <!-- /.col-md-6 -->
@@ -79,15 +89,48 @@
                                 </div>
                             </li>
                             <li class="cart nav-top-cart-wrapper">
-                                <a href="#"><span class="bf-icon icon-cart"></span></a> <span class="count-cart">0</span>
+                                <a href="#"><span class="bf-icon icon-cart"></span></a> <span class="count-cart">{{ isset($carrito) ? count($carrito) : 0 }}</span>
                                 <div class="nav-shop-cart">
                                     <div class="widget_shopping_cart_content">
                                         <div class="woocommerce-min-cart-wrap">
                                             <ul class="woocommerce-mini-cart cart_list product_list_widget flat-text-center">
                                                 <li class="woocommerce-mini-cart-item mini_cart_item">
-                                                    <span>No existe items en el carrito</span>
+                                                    <span class="carrito-vacio {{ isset($carrito) && count($carrito) > 0 ? 'd-none' : '' }}">No existe items en el carrito</span>
+
+                                                    <table id="table-mini-cart" class="wpisset-table {{ isset($carrito) && count($carrito) > 0 ? '' : 'd-none' }}">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="3">Producto</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php $subtotal = 0; @endphp
+                                                            @if ( isset($carrito) )
+                                                                @foreach ( $carrito as $item )
+                                                                    @php $subtotal += $item->precio; @endphp
+                                                                    <tr>
+                                                                        <td>
+                                                                            <a href="#" class="remove remove_from_cart_button" aria-label="Remove this item" onclick="eliminarCarrito({{ $item->id }});">×</a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="#">{{ $item->curso->nombre }}</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
                                                 </li>
                                             </ul>
+                                            <p class="woocommerce-mini-cart__total total {{ isset($carrito) && count($carrito) > 0 ? '' : 'd-none' }}">
+                                                <strong>Subtotal:</strong>
+                                                <span class="woocommerce-Price-amount amount">
+                                                    <span class="woocommerce-Price-currencySymbol">S/</span><span id="subtotal">{{ $subtotal }}</span>
+                                                </span>
+                                            </p>
+                                            <p class="woocommerce-mini-cart__buttons buttons {{ isset($carrito) && count($carrito) > 0 ? '' : 'd-none' }}">
+                                                <a href="#" class="flat-button btn-read-more checkout wc-forward">Checkout</a>
+                                            </p>
                                         </div><!-- /.widget_shopping_cart_content -->
                                     </div>
                                 </div>
@@ -395,5 +438,7 @@
     <script src="{{ asset('javascript/smoothscroll.js') }}"></script>
 
     <script src="{{ asset('javascript/main.js') }}"></script>
+    <script src="{{ asset('javascript/app.js') }}"></script>
+
 </body>
 </html>

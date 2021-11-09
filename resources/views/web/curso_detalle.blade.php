@@ -42,8 +42,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="wrap-cart flat-text-right">
-                                        <a href="#" class="btn-cart">Añadir al Carrito</a>
-                                        <a href="#" class="flat-button btn-buy border-ra4 float-right">COMPRAR AHORA</a>
+                                        @if ( Auth::check() )
+                                            <a
+                                                class="btn-cart"
+                                                href="#"
+                                                data-id="{{ $curso->id }}"
+                                                data-precio="{{ $curso->precio }}"
+                                                data-nombre="{{ $curso->nombre }}"
+                                            >Añadir al Carrito</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

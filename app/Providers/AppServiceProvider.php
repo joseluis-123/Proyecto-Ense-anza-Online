@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Carrito;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('*', function ($view) {
+
+            if ( Auth::check() )
+                $view->with( 'carrito', Carrito::with('curso')->where('alumno_id', Auth::id())->get() );
+
+        });
     }
 }
