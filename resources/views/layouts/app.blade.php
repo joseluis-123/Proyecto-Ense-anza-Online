@@ -37,15 +37,15 @@
                         @else
                             @if ( auth()->user()->rol_id == 1 )
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('usuario.create') }}">Usuarios</a>
+                                    <a class="nav-link" href="{{ route('usuario.index') }}">Usuarios</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('categoria.create') }}">Categorias</a>
+                                    <a class="nav-link" href="{{ route('categoria.index') }}">Categorias</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('curso.create') }}">Cursos</a>
+                                    <a class="nav-link" href="{{ route('curso.index') }}">Cursos</a>
                                 </li>
                             @elseif ( auth()->user()->rol_id == 2 )
                                 <li class="nav-item">
@@ -53,7 +53,7 @@
                                 </li>
                             @elseif ( auth()->user()->rol_id == 3 )
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Mis Alumnos</a>
+                                <a class="nav-link" href="{{ route('venta.detalle.misAlumnos') }}">Mis Alumnos</a>
                             </li>
                             @endif
                         @endguest

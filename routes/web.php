@@ -9,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SeccionController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\VentaDetalleController;
 use App\Http\Controllers\Web\PageController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,8 @@ Route::prefix('admin')->middleware('auth')->group( function () {
     Route::resource('seccion', SeccionController::class);
 
     Route::resource('venta', VentaController::class);
+
+    Route::get('mis-alumnos', [VentaDetalleController::class, 'misAlumnos'])->name('venta.detalle.misAlumnos');
 
 });
 

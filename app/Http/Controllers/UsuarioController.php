@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UsuarioController extends Controller
 {
@@ -14,7 +16,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        $usuarios = Usuario::with('rol')->get();
+
+        return view('admin.usuarios.index', compact('usuarios'));
     }
 
     /**
@@ -37,7 +41,20 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'correo' => 'required|unique:usuarios'
+        ]);
+
+        $input = $request->all();
+        $input['estado'] = true;
+        $input['password'] = bcrypt($request->password);
+
+        $usuario = new Usuario();
+        $usuario->fill( $input )->save();
+
+        return Redirect::route('usuario.index')->with('success', 'Usuario agregado correctamente.');
     }
 
     /**

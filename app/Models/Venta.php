@@ -24,6 +24,6 @@ class Venta extends Model
 
     public function alumno()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Usuario::class);
     }
 }

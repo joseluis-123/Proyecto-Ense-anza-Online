@@ -8,6 +8,17 @@
                 <div class="card-header">Registrar Cursos</div>
 
                 <div class="card-body">
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form action="{{ route('curso.store') }}" method="POST">
                         @csrf
 
@@ -42,7 +53,7 @@
 
                         <div class="form-group">
                             <label>Instructor</label>
-                            <select name="instrcutor_id" class="form-control">
+                            <select name="instructor_id" class="form-control">
                                 @foreach ($instructores as $instructor)
                                     <option value="{{ $instructor->id }}">{{ $instructor->nombres . ' ' . $instructor->apellidos  }}</option>
                                 @endforeach
@@ -55,6 +66,21 @@
                                 <option value="1">Español</option>
                                 <option value="2">Inglés</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Requisitos</label>
+                            <input type="text" name="requisitos" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Objetivos</label>
+                            <input type="text" name="objetivos" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Dirigido</label>
+                            <input type="text" name="dirigido" class="form-control">
                         </div>
 
                         <button type="submit" class="btn btn-primary" >Registrar</button>
